@@ -1,77 +1,71 @@
-import CronBuilder from "../../components/CronBuilder";
+import type { Metadata } from "next";
+import Tool from "@/components/CronBuilder";
 
-const card = {
-  background: "var(--color-surface)",
-  borderRadius: "1rem",
-  border: "1px solid var(--color-border)",
-  padding: "1.5rem",
-  marginBottom: "2rem",
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://miguelacm.es/tools/cron-builder";
+const EMBED_URL = process.env.NEXT_PUBLIC_EMBED_URL || "https://miguelacm.es/embed/cron-builder";
+
+export const metadata: Metadata = {
+  title: "Cron Builder — Free Online Tool",
+  description: "Build cron expressions visually. Natural language description and next 5 executions calculated.",
+  alternates: { canonical: SITE_URL },
 };
 
-const section = { marginBottom: "2rem" };
-const h2 = { fontSize: "1.25rem", fontWeight: "bold" as const, color: "var(--color-text)", marginBottom: "1rem" };
-const muted = { color: "var(--color-text-muted)", fontSize: "0.9rem", lineHeight: "1.6" };
-const li = { color: "var(--color-text-muted)", fontSize: "0.9rem", lineHeight: "1.8" };
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  name: "Cron Builder",
+  url: SITE_URL,
+  description: "Build cron expressions visually. Natural language description and next 5 executions calculated.",
+  applicationCategory: "UtilityApplication",
+  operatingSystem: "Web",
+  inLanguage: "en",
+  offers: { "@type": "Offer", price: "0", priceCurrency: "EUR" },
+  author: { "@type": "Person", name: "Miguel Ángel Colorado Marin", url: "https://miguelacm.es" },
+};
 
 export default function Home() {
   return (
-    <main style={{ minHeight: "100vh", padding: "2rem 1rem", maxWidth: "900px", margin: "0 auto" }}>
-      <header style={{ textAlign: "center", marginBottom: "2rem" }}>
-        <h1 style={{ fontSize: "2rem", fontWeight: "bold", color: "var(--color-text)", marginBottom: "0.5rem" }}>
-          Cron Builder
-        </h1>
-        <p style={muted}>
-          Construye expresiones cron visualmente con descripción en lenguaje natural y cálculo de próximas ejecuciones.
-        </p>
-      </header>
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <main className="min-h-screen px-4 py-12">
+        <div className="mx-auto max-w-4xl">
+          <div className="mb-10 text-center">
+            <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/10 px-4 py-1.5 text-sm text-primary">Free tool · Open source</div>
+            <h1 className="mb-3 text-4xl font-bold text-white md:text-5xl">Cron Builder</h1>
+            <p className="mb-2 text-lg text-text-muted">Build cron expressions visually. Natural language description and next 5 executions calculated.</p>
+            <p className="text-sm text-text-muted/60">By{" "}<a href="https://miguelacm.es" target="_blank" rel="noopener noreferrer" className="gradient-text font-medium hover:opacity-80 transition-opacity">MACM</a>{" "}· No sign-up · No ads</p>
+          </div>
 
-      <div style={card}>
-        <CronBuilder />
-      </div>
+          <div className="glass rounded-2xl border border-border/20 p-6 md:p-8"><Tool locale="en" /></div>
 
-      <div style={card}>
-        <div style={section}>
-          <h2 style={h2}>Cómo usar / How to use</h2>
-          <ol style={{ paddingLeft: "1.5rem" }}>
-            <li style={li}><strong>Configura cada campo</strong> — Introduce valores para minuto, hora, día del mes, mes y día de la semana. Usa * para cualquier valor.</li>
-            <li style={li}><strong>Usa los presets rápidos</strong> — Botones bajo cada campo con valores comunes: */5, */15, 0, etc.</li>
-            <li style={li}><strong>Lee la descripción</strong> — La herramienta genera automáticamente una descripción en lenguaje natural de la expresión.</li>
-            <li style={li}><strong>Comprueba las próximas ejecuciones</strong> — Verás las próximas 5 fechas y horas exactas de ejecución.</li>
-          </ol>
+          <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-3">
+            {[
+            { icon: "🧩", title: "Visual builder", desc: "Pick minutes, hours, days and months with clicks instead of memorizing syntax." },
+            { icon: "🗣️", title: "Plain language", desc: "The expression is described in words plus the next 5 execution times." },
+            { icon: "🔒", title: "100% private", desc: "Parsing runs locally in your browser." },
+            ].map((item) => (
+              <div key={item.icon + item.title} className="glass rounded-xl border border-border/15 p-5">
+                <span className="mb-3 block text-2xl">{item.icon}</span>
+                <h3 className="mb-1 font-semibold text-white">{item.title}</h3>
+                <p className="text-sm text-text-muted leading-relaxed">{item.desc}</p>
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-8 rounded-xl border border-border/20 bg-white/3 p-6">
+            <h2 className="mb-2 font-semibold text-white">Embed this tool on your website</h2>
+            <p className="mb-4 text-sm text-text-muted">Add Cron Builder to any page with a simple iframe, or link to it with attribution.</p>
+            <div className="mb-3 rounded-lg bg-black/40 p-3">
+              <p className="mb-1 text-xs text-text-muted/60">Iframe (plug & play):</p>
+              <code className="text-xs text-green-400 break-all">{`<iframe src="${EMBED_URL}" width="100%" height="700" style="border:none;border-radius:12px;" title="Cron Builder — miguelacm.es" loading="lazy"></iframe>`}</code>
+            </div>
+            <div className="rounded-lg bg-black/40 p-3">
+              <p className="mb-1 text-xs text-text-muted/60">Link with attribution (recommended for backlink):</p>
+              <code className="text-xs text-green-400 break-all">{`<a href="${SITE_URL}" target="_blank" rel="noopener">Cron Builder — free tool by MACM</a>`}</code>
+            </div>
+          </div>
         </div>
-
-        <div style={section}>
-          <h2 style={h2}>FAQ</h2>
-          <p style={{ ...muted, fontWeight: "bold", marginBottom: "0.25rem" }}>¿Qué es una expresión cron?</p>
-          <p style={{ ...muted, marginBottom: "1rem" }}>Una cadena de 5 campos separados por espacios que define cuándo ejecutar una tarea: minuto (0-59), hora (0-23), día del mes (1-31), mes (1-12) y día de la semana (0-6, 0=domingo).</p>
-
-          <p style={{ ...muted, fontWeight: "bold", marginBottom: "0.25rem" }}>¿Qué significa el asterisco (*)?</p>
-          <p style={{ ...muted, marginBottom: "1rem" }}>Significa "cualquier valor". Por ejemplo, * * * * * ejecuta cada minuto. 0 * * * * ejecuta al inicio de cada hora.</p>
-
-          <p style={{ ...muted, fontWeight: "bold", marginBottom: "0.25rem" }}>¿Cómo especifico cada 15 minutos?</p>
-          <p style={{ ...muted, marginBottom: "1rem" }}>Usa la notación */N. Por ejemplo, */15 en el campo minuto significa "cada 15 minutos". Es equivalente a 0,15,30,45.</p>
-
-          <p style={{ ...muted, fontWeight: "bold", marginBottom: "0.25rem" }}>¿Puedo especificar varios valores?</p>
-          <p style={{ ...muted, marginBottom: "1rem" }}>Sí. Usa comas para listar valores (1,15,30) y guiones para rangos (1-5). También puedes combinar: 1-5,10,15.</p>
-
-          <p style={{ ...muted, fontWeight: "bold", marginBottom: "0.25rem" }}>¿Funciona sin conexión?</p>
-          <p style={muted}>Sí. Todo el cálculo ocurre íntegramente en tu navegador con JavaScript puro. No se envía ningún dato a ningún servidor.</p>
-        </div>
-
-        <div>
-          <h2 style={h2}>📦 Embed on your website</h2>
-          <pre style={{ background: "#0a0a0f", borderRadius: "0.5rem", padding: "1rem", fontSize: "0.75rem", color: "var(--color-text-muted)", overflowX: "auto" }}>
-{`<iframe
-  src="https://miguelacm.es/embed/cron-builder"
-  width="100%"
-  height="700"
-  style="border:none;border-radius:12px;"
-  title="Cron Builder — miguelacm.es"
-  loading="lazy"
-></iframe>`}
-          </pre>
-        </div>
-      </div>
-    </main>
+      </main>
+    </>
   );
 }
